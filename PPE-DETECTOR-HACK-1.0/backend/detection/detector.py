@@ -1,15 +1,12 @@
 from ultralytics import YOLO
-import cv2
-import numpy as np
 
-class PPE_Detector:
-    def __init__(self, model_path):
-        self.model = YOLO(model_path)
-    
-    def detect(self, image):
-        img = cv2.imdecode(np.frombuffer(image, np.uint8), cv2.IMREAD_COLOR)
-        results = self.model(img)
-        return self.parse_results(results)
-    
-    def parse_results(self, results):
-   
+# Load pre-trained YOLOv8 model
+model = YOLO("yolov8n.pt")
+
+def detect_ppe(image_path):
+    results = model(image_path)  # Run detection
+    return results
+
+if __name__ == "__main__":
+    result = detect_ppe("sample.jpg")  # Test with a sample image
+    result.show()
