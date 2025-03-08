@@ -207,6 +207,52 @@
                 margin-bottom: 20px;
             }
         }
+
+
+
+        .upload-container {
+            max-width: 450px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .upload-box {
+            border: 2px dashed #007bff;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .upload-box:hover {
+            background-color: #e9ecef;
+        }
+        .upload-box p {
+            margin: 0;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .btn-upload {
+            background-color: #007bff;
+            color: white;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .btn-upload:hover {
+            background-color: #0056b3;
+        }
+        #previewImage {
+            max-height: 200px;
+            display: none;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -221,13 +267,13 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="./index.html"><ion-icon name="home-outline"></ion-icon> Home</a>
+                    <a class="nav-link" href="../index.html"><ion-icon name="home-outline"></ion-icon> Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><ion-icon name="videocam-outline"></ion-icon> Live Detection</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./subpage/Upload.html"><ion-icon name="cloud-upload-outline"></ion-icon> Upload</a>
+                    <a class="nav-link" href="./Upload.html"><ion-icon name="cloud-upload-outline"></ion-icon> Upload</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><ion-icon name="tv-outline"></ion-icon> CCTV</a>
@@ -246,90 +292,23 @@
     </div>
 </nav>
 
-<!-- Header & Features -->
 <div class="container mt-5">
-    <div class="header">
-        <h2>PPE Detection System</h2>
-        <p>Ensuring workplace safety through advanced AI-powered PPE monitoring.</p>
-        <p>Supporting both real-time camera feeds and CCTV integration.</p>
-    </div>
-
-    <div class="row mt-4">
-        <div class="col-md-4" id="live-detection-container">
-            <div class="card" id="live-detection-card">
-                <ion-icon name="videocam-outline" id="live-detection-icon"></ion-icon>
-                <h5 id="live-detection-title">Live Detection</h5>
-                <p id="live-detection-description">Start real-time PPE detection using your camera or CCTV feed.</p>
-                <button class="btn btn-custom" id="start-detection-btn" data-bs-toggle="modal" data-bs-target="#videoModal">
-                    START DETECTION
-                </button>
-            </div>
-        </div>
+    <div class="upload-container">
+        <h4 class="mb-3">Upload PPE Image</h4>
         
-        <div class="col-md-4">
-            <div class="card">
-                <ion-icon name="cloud-upload-outline"></ion-icon>
-                <h5>Image Upload</h5>
-                <p>Upload images or video clips for PPE compliance checking.</p>
-                <button class="btn btn-custom" style="background-color: #9333ea;">UPLOAD FILES</button>
-            </div>
+        <div class="upload-box" id="dropArea">
+            <p>Drag & Drop Image Here</p>
+            <p>or</p>
+            <input type="file" id="imageUpload" class="form-control" accept="image/*" style="display: none;">
+            <button class="btn btn-upload" id="uploadBtn">Select Image</button>
         </div>
 
-        <div class="col-md-4">
-            <div class="card">
-                <ion-icon name="tv-outline"></ion-icon>
-                <h5>CCTV Integration</h5>
-                <p>Connect and monitor multiple CCTV camera feeds.</p>
-                <button class="btn btn-custom" style="background-color: #0dcaf0;">CONFIGURE CCTV</button>
-            </div>
-        </div>
+        <button class="btn btn-primary btn-upload mt-3" id="submitBtn">Upload</button>
+        
+        <img id="previewImage" class="img-fluid mt-3" alt="Uploaded Image Preview">
     </div>
 </div>
 
-<!-- Feature Highlights -->
-<div class="container mt-5">
-    <div class="row g-4">
-        <div class="col-md-4">
-            <div class="black-card">
-                <i class="bi bi-lightning-fill"></i>
-                <h5>Real-Time Detection</h5>
-                <p>AI-powered PPE violation detection in real-time.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="black-card">
-                <i class="bi bi-bell-fill"></i>
-                <h5>Smart Alerts</h5>
-                <p>Instant notifications via mobile & email.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="black-card">
-                <i class="bi bi-bar-chart-fill"></i>
-                <h5>Analytics Dashboard</h5>
-                <p>Detailed reports with trends & insights.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<!-- Live Video Modal -->
-<div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="videoModalLabel">Live Detection - Camera Feed</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <video id="videoFeed" autoplay></video>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Footer -->
 <footer class="bg-dark text-white mt-5">
@@ -386,32 +365,48 @@
 </footer>
 
 <!-- Bootstrap JS -->
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-    const video = document.getElementById('videoFeed');
-
-    // Start video when modal opens
-    document.getElementById('videoModal').addEventListener('shown.bs.modal', () => {
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then((stream) => {
-                video.srcObject = stream;
-            })
-            .catch((error) => {
-                console.error("Error accessing camera:", error);
-                alert("Could not access the camera. Please check your permissions.");
-            });
-    });
-
-    // Stop video when modal closes
-    document.getElementById('videoModal').addEventListener('hidden.bs.modal', () => {
-        const stream = video.srcObject;
-        const tracks = stream ? stream.getTracks() : [];
-        tracks.forEach(track => track.stop());
-        video.srcObject = null;
-    });
-</script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const uploadBtn = document.getElementById('uploadBtn');
+    const imageUpload = document.getElementById('imageUpload');
+    const dropArea = document.getElementById('dropArea');
+    const previewImage = document.getElementById('previewImage');
+
+    uploadBtn.addEventListener('click', () => {
+        imageUpload.click();
+    });
+
+    imageUpload.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        previewImageFile(file);
+    });
+
+    dropArea.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dropArea.style.backgroundColor = "#e9ecef";
+    });
+
+    dropArea.addEventListener('dragleave', () => {
+        dropArea.style.backgroundColor = "#f8f9fa";
+    });
+
+    dropArea.addEventListener('drop', (event) => {
+        event.preventDefault();
+        dropArea.style.backgroundColor = "#f8f9fa";
+        const file = event.dataTransfer.files[0];
+        previewImageFile(file);
+    });
+
+    function previewImageFile(file) {
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 </body>
 </html>
