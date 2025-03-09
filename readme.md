@@ -1,11 +1,11 @@
 
-# PPE Detection System using YOLOv5
+# PPE Detection System 
 
 ![License](https://img.shields.io/badge/License-MIT-blue)
 ![Python](https://img.shields.io/badge/Python-3.8%2B-green)
 ![YOLOv5](https://img.shields.io/badge/YOLO-v5-ff69b4)
 
-A computer vision system to detect Personal Protective Equipment (PPE) like helmets, vests, gloves, etc., using YOLOv5. 
+A ppe detection system to detect Personal Protective Equipment (PPE) like helmets, vests, gloves, etc., using YOLOv5. 
 
 ## 📌 Overview
 - Detects 7 PPE classes: `Dust Mask`, `Eye Wear`, `Glove`, `Protective Boots`, `Protective Helmet`, `Safety Vest`, `Shield`
