@@ -208,8 +208,6 @@
             }
         }
 
-
-
         .upload-container {
             max-width: 450px;
             margin: auto;
@@ -219,6 +217,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             text-align: center;
         }
+
         .upload-box {
             border: 2px dashed #007bff;
             padding: 20px;
@@ -227,14 +226,17 @@
             cursor: pointer;
             transition: 0.3s;
         }
+
         .upload-box:hover {
             background-color: #e9ecef;
         }
+
         .upload-box p {
             margin: 0;
             color: #007bff;
             font-weight: bold;
         }
+
         .btn-upload {
             background-color: #007bff;
             color: white;
@@ -243,15 +245,54 @@
             font-size: 14px;
             transition: 0.3s;
         }
+
         .btn-upload:hover {
             background-color: #0056b3;
         }
-        #previewImage {
-            max-height: 200px;
-            display: none;
-            margin-top: 15px;
+
+        .preview-container {
+            margin-top: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            height: 300px; /* Fixed height for the container */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #ddd;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden; /* Ensure the content stays within the container */
+        }
+
+        #previewImage,
+        #previewVideo {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+            display: none; /* Hidden by default */
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            display: none; /* Hidden by default */
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
@@ -294,21 +335,25 @@
 
 <div class="container mt-5">
     <div class="upload-container">
-        <h4 class="mb-3">Upload PPE Image</h4>
+        <h4 class="mb-3">Upload PPE Image or Video</h4>
         
         <div class="upload-box" id="dropArea">
-            <p>Drag & Drop Image Here</p>
+            <p>Drag & Drop Image/Video Here</p>
             <p>or</p>
-            <input type="file" id="imageUpload" class="form-control" accept="image/*" style="display: none;">
-            <button class="btn btn-upload" id="uploadBtn">Select Image</button>
+            <input type="file" id="fileUpload" class="form-control" accept="image/*, video/*" style="display: none;">
+            <button class="btn btn-upload" id="uploadBtn">Select File</button>
+        </div>
+
+        <!-- Preview Container -->
+        <div class="preview-container">
+            <img id="previewImage" class="img-fluid" alt="Uploaded Image Preview">
+            <video id="previewVideo" class="img-fluid" controls style="display: none;"></video>
+            <button class="delete-btn" id="deleteBtn">&times;</button>
         </div>
 
         <button class="btn btn-primary btn-upload mt-3" id="submitBtn">Upload</button>
-        
-        <img id="previewImage" class="img-fluid mt-3" alt="Uploaded Image Preview">
     </div>
 </div>
-
 
 <!-- Footer -->
 <footer class="bg-dark text-white mt-5">
@@ -368,17 +413,20 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     const uploadBtn = document.getElementById('uploadBtn');
-    const imageUpload = document.getElementById('imageUpload');
+    const fileUpload = document.getElementById('fileUpload');
     const dropArea = document.getElementById('dropArea');
     const previewImage = document.getElementById('previewImage');
+    const previewVideo = document.getElementById('previewVideo');
+    const deleteBtn = document.getElementById('deleteBtn');
+    const submitBtn = document.getElementById('submitBtn');
 
     uploadBtn.addEventListener('click', () => {
-        imageUpload.click();
+        fileUpload.click();
     });
 
-    imageUpload.addEventListener('change', function(event) {
+    fileUpload.addEventListener('change', function(event) {
         const file = event.target.files[0];
-        previewImageFile(file);
+        previewFile(file);
     });
 
     dropArea.addEventListener('dragover', (event) => {
@@ -394,19 +442,47 @@
         event.preventDefault();
         dropArea.style.backgroundColor = "#f8f9fa";
         const file = event.dataTransfer.files[0];
-        previewImageFile(file);
+        previewFile(file);
     });
 
-    function previewImageFile(file) {
+    deleteBtn.addEventListener('click', () => {
+        previewImage.src = "";
+        previewImage.style.display = 'none';
+        previewVideo.src = "";
+        previewVideo.style.display = 'none';
+        deleteBtn.style.display = 'none';
+        fileUpload.value = ""; // Clear the file input
+    });
+
+    function previewFile(file) {
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImage.src = e.target.result;
-                previewImage.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
+            if (file.type.startsWith('image/')) {
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                    previewVideo.style.display = 'none';
+                    deleteBtn.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else if (file.type.startsWith('video/')) {
+                previewVideo.src = URL.createObjectURL(file);
+                previewVideo.style.display = 'block';
+                previewImage.style.display = 'none';
+                deleteBtn.style.display = 'block';
+            }
         }
     }
+
+    submitBtn.addEventListener('click', () => {
+        const file = fileUpload.files[0];
+        if (file) {
+            // Perform upload logic here (e.g., send file to server)
+            alert("File uploaded successfully!");
+        } else {
+            alert("Please select a file first.");
+        }
+    });
 </script>
 </body>
 </html>

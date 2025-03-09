@@ -84,7 +84,7 @@
 
         /* Card Styles */
         .card {
-            border-radius: 10px;
+            border-radius: 20px;
             transition: 0.3s;
             height: 100%;
             display: flex;
@@ -207,6 +207,36 @@
                 margin-bottom: 20px;
             }
         }
+
+
+
+        .benefit-section {
+            padding: 40px;
+        }
+        .benefit-box {
+            border: 2px dotted #007bff;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            text-align: center;
+            position: relative;
+        }
+        .benefit-box img {
+            width: 100%;
+            height: auto;
+        }
+        .attribute-badge {
+            background-color: #ff7f50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .icon {
+            font-size: 40px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -314,6 +344,40 @@
 </div>
 
 
+<div class="container benefit-section">
+ 
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="benefit-box">
+                <h4>PPE Detection</h4>
+                <i class="fas fa-hard-hat icon"></i>
+                <img src="https://dahuatest.s3.ap-southeast-1.amazonaws.com/uploads/soft/20230504/ppe1_2.png" alt="PPE Detection">
+               
+                <p>In addition to supporting hats, safety vests, clothing color property, masks by front & back intelligence, the front intelligence also adds detection attributes such as apron, gloves, shoe cover, boots, seatbelt.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="benefit-box">
+                <h4>Custom Training</h4>
+                <i class="fas fa-tools icon"></i>
+                <img src="https://dahuatest.s3.ap-southeast-1.amazonaws.com/uploads/soft/20230428/ppe2.png" alt="Custom Training">
+                <p>Supports to import workwear images as the base library for localized modeling, training, and comparison. Supports several workwear types and offers flexible and convenient operation.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="benefit-box" style="height: 400px;">
+                <h4>Quick Target Location</h4>
+                <i class="fas fa-search icon"></i>
+                <img src="https://dahuatest.s3.ap-southeast-1.amazonaws.com/uploads/soft/20230504/ppe3_2.png" alt="Quick Target Location">
+                <p>Efficiently search specified targets using different detection rules.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- Live Video Modal -->
